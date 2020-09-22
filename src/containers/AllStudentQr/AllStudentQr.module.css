@@ -1,0 +1,25 @@
+.AllStudentQr {
+    text-align: center;
+}
+
+.StudentQr {
+    display: inline-block;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc
+}
+
+@media print {
+
+    header, nav, footer, header > div {
+        display: none;
+    }
+
+    .StudentQr {
+        float: none;
+        overflow: visible;
+        display: inline-block;
+        position: static;
+    }
+
+}
