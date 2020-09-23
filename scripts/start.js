@@ -126,6 +126,7 @@ checkBrowsers(paths.appPath, isInteractive)
         clearConsole();
       }
 
+
       // We used to support resolving modules according to `NODE_PATH`.
       // This now has been deprecated in favor of jsconfig/tsconfig.json
       // This lets you use absolute paths in imports inside large monorepos:

@@ -45,8 +45,6 @@ export const logout = () => {
 
 // this is an async action creator
 export const auth = (email, password) => {
-    console.log('auth dispatched')
-
     return dispatch => {
         const authData = {
             email: email,

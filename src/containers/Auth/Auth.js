@@ -5,6 +5,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import * as util from "../../shared/util";
 import Form from "../../components/UI/Form/Form";
+import {Redirect} from "react-router-dom";
 
 class Auth extends Component {
     state = {
@@ -70,6 +71,7 @@ class Auth extends Component {
         }
         return (
             <div className={classes.Auth}>
+                {this.props.isAuthenticated ? <Redirect to="/home" /> : null}
                 {errorMessage}
                 <h1>Login</h1>
                 <Form handleSubmit={this.submitHandler}
