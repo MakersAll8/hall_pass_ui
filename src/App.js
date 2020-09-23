@@ -8,6 +8,7 @@ import Layout from "./hoc/Layout/Layout";
 import * as actions from './store/actions/index'
 import Logout from "./containers/Auth/Logout/Logout";
 import Home from "./containers/Home/Home";
+import MyPass from "./containers/MyPass/MyPass";
 
 class App extends Component {
     componentDidMount () {
@@ -28,8 +29,9 @@ class App extends Component {
                 routes = (
                     <Switch>
                         <Route path="/studentQrs" component={AllStudentQr} />
-                        <Route path="/logout" exact component={Logout} />
-                        <Route path="/home" exact component={Home} />
+                        <Route path="/logout" component={Logout} />
+                        <Route path="/home" component={Home} />
+                        <Route path="/passes" component={MyPass} />
                         <Route path="/" exact component={Home} />
                         <Redirect to="/"/>
                     </Switch>
@@ -37,8 +39,9 @@ class App extends Component {
             } else if(this.props.isTeacher) {
                 routes = (
                     <Switch>
-                        <Route path="/logout" exact component={Logout} />
-                        <Route path="/home" exact component={Home} />
+                        <Route path="/logout" component={Logout} />
+                        <Route path="/home" component={Home} />
+                        <Route path="/passes" component={MyPass} />
                         <Route path="/" exact component={Home} />
                         <Redirect to="/"/>
                     </Switch>
@@ -46,8 +49,9 @@ class App extends Component {
             } else if(this.props.isStudent){
                 routes = (
                     <Switch>
-                        <Route path="/logout" exact component={Logout} />
-                        <Route path="/home" exact component={Home} />
+                        <Route path="/logout" component={Logout} />
+                        <Route path="/home" component={Home} />
+                        <Route path="/passes" component={MyPass} />
                         <Route path="/" exact component={Home} />
                         <Redirect to="/"/>
                     </Switch>

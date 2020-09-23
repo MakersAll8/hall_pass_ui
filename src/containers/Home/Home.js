@@ -4,6 +4,7 @@ import axios from '../../axios-api'
 import {connect} from 'react-redux';
 import Form from "../../components/UI/Form/Form";
 import * as util from "../../shared/util";
+import {Redirect} from "react-router-dom";
 
 class Home extends Component {
     state = {
@@ -93,6 +94,8 @@ class Home extends Component {
         allTeachers: [],
         destinations: [],
         origins: [],
+        error: false,
+        redirectToMyPass: false,
     }
 
     componentDidMount() {
@@ -184,14 +187,42 @@ class Home extends Component {
 
     // handlers call dispatch
     submitHandler = (event) => {
-        event.preventDefault();
+        event.preventDefault()
         const destinationData = this.state.controls.destination.value.split(';')
-        console.log("origin teacher id", this.state.controls.originTeacher.value)
-        console.log("destination id", destinationData[0])
-        if(destinationData.length > 1){
-            console.log("destination teacher id", destinationData[1])
+        // console.log("origin teacher id", this.state.controls.originTeacher.value)
+        // console.log("destination id", destinationData[0])
+
+        // console.log("origin id", this.state.controls.origin.value)
+
+        const passRequest = {
+            destination: destinationData[0],
+            origin: this.state.controls.origin.value,
+            originTeacher: this.state.controls.originTeacher.value,
         }
-        console.log("origin id", this.state.controls.origin.value)
+        if(destinationData.length > 1){
+            passRequest.destinationTeacher  = destinationData[1]
+        }
+
+        (async ()=>{
+            try {
+                const pass = await axios.post('/requestPass', passRequest)
+                if(pass.data._id){
+                    this.setState({
+                        error : false,
+                        redirectToMyPass: true,
+                    })
+                } else {
+                    this.setState({
+                        error : {message: 'Failed to create a pass request'}
+                    })
+                }
+            } catch (e){
+                console.log(e)
+                this.setState({
+                    error : {message: 'Failed to create a pass request'}
+                })
+            }
+        })()
 
 
     }
@@ -264,9 +295,14 @@ class Home extends Component {
                 <p>{this.props.error.message}</p>
             );
         }
+        let redirectMyPasses = null;
+        if(this.state.redirectToMyPass){
+            redirectMyPasses = <Redirect to="/passes"/>
+        }
 
         return (
             <div>
+                {redirectMyPasses}
                 {errorMessage}
                 <h1>Request a Pass</h1>
                 <p>Logged in as: <i>{this.props.loggedInAs}</i></p>
