@@ -1,0 +1,15 @@
+.Pass {
+    display: inline-block;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #ddd;
+}
+
+.Active {
+    background-color: #4CAF50;
+}
+
+.Passes {
+    
+}

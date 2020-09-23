@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
+import classes from './App.module.css'
 // import axios from './axios-api';
-import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
+import {Route, Switch, withRouter, Redirect} from 'react-router-dom';
+import {connect} from 'react-redux';
 import Auth from "./containers/Auth/Auth";
 import AllStudentQr from "./containers/AllStudentQr/AllStudentQr";
 import Layout from "./hoc/Layout/Layout";
@@ -11,56 +12,39 @@ import Home from "./containers/Home/Home";
 import MyPass from "./containers/MyPass/MyPass";
 
 class App extends Component {
-    componentDidMount () {
+    componentDidMount() {
         this.props.isAuthorized();
     }
 
     render() {
         let routes = (
             <Switch>
-                <Route path="/" exact component={Auth} />
+                <Route path="/" exact component={Auth}/>
                 {/* redirect to root page if NavLink to does not match any route above */}
                 <Redirect to="/"/>
             </Switch>
         )
+        if (this.props.isAuthenticated) {
+            // if(this.props.isAdmin){
+            routes = (
+                <Switch>
+                    {this.props.isAdmin ? <Route path="/studentQrs" component={AllStudentQr}/> : null}
+                    {this.props.isAdmin ? <Route path="/createUser" component={Auth}/> : null}
+                    {this.props.isAdmin ? <Route path="/users" component={Auth}/> : null}
 
-        if(this.props.isAuthenticated){
-            if(this.props.isAdmin){
-                routes = (
-                    <Switch>
-                        <Route path="/studentQrs" component={AllStudentQr} />
-                        <Route path="/logout" component={Logout} />
-                        <Route path="/home" component={Home} />
-                        <Route path="/passes" component={MyPass} />
-                        <Route path="/" exact component={Home} />
-                        <Redirect to="/"/>
-                    </Switch>
-                )
-            } else if(this.props.isTeacher) {
-                routes = (
-                    <Switch>
-                        <Route path="/logout" component={Logout} />
-                        <Route path="/home" component={Home} />
-                        <Route path="/passes" component={MyPass} />
-                        <Route path="/" exact component={Home} />
-                        <Redirect to="/"/>
-                    </Switch>
-                )
-            } else if(this.props.isStudent){
-                routes = (
-                    <Switch>
-                        <Route path="/logout" component={Logout} />
-                        <Route path="/home" component={Home} />
-                        <Route path="/passes" component={MyPass} />
-                        <Route path="/" exact component={Home} />
-                        <Redirect to="/"/>
-                    </Switch>
-                )
-            }
+                    <Route path="/" exact component={Home}/>
+                    <Route path="/changeMyPassword" component={Auth}/>
+                    <Route path="/logout" component={Logout}/>
+                    <Route path="/home" component={Home}/>
+                    <Route path="/passes" component={MyPass}/>
+                    <Route path="/activePasses" render={<MyPass active={true}/>}/>
+                    <Redirect to="/"/>
+                </Switch>
+            )
         }
 
         return (
-            <div className="App">
+            <div className={classes.App}>
                 <Layout>
                     {routes}
                 </Layout>
@@ -81,8 +65,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         // find out auth state once app mounts
-        isAuthorized: () => dispatch( actions.authCheckState() ),
+        isAuthorized: () => dispatch(actions.authCheckState()),
     };
 };
 
-export default withRouter( connect( mapStateToProps, mapDispatchToProps )( App ) );
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

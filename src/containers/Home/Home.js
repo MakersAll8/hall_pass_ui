@@ -319,7 +319,7 @@ class Home extends Component {
 
 const mapStateToProps = state => {
     return {
-        loggedInAs: `${state.auth.user.firstName} ${state.auth.user.lastName}`,
+        loggedInAs: `${state.auth.user.lastName}, ${state.auth.user.firstName}`,
     };
 };
 
