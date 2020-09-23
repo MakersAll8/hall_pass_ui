@@ -10,6 +10,13 @@
     background-color: #4CAF50;
 }
 
-.Passes {
-    
+.Actions {
+    background-color: #eeeeee;
+}
+
+@media (min-width: 500px){
+    .Passes {
+        margin-left: 10%;
+        margin-right: 10%;
+    }
 }

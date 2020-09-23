@@ -76,7 +76,7 @@ class Auth extends Component {
                       controls={this.state.controls}
                       handleInputChange={this.inputChangedHandler}
                       btnType="Success"
-                      btnName="Alohomora"
+                      btnName="Login"
                 />
             </div>
         )

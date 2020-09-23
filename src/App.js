@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import classes from './App.module.css'
 // import axios from './axios-api';
-import {Route, Switch, withRouter, Redirect} from 'react-router-dom';
+import {Route, Switch, withRouter, Redirect} from 'react-router';
 import {connect} from 'react-redux';
 import Auth from "./containers/Auth/Auth";
 import AllStudentQr from "./containers/AllStudentQr/AllStudentQr";
@@ -10,6 +10,7 @@ import * as actions from './store/actions/index'
 import Logout from "./containers/Auth/Logout/Logout";
 import Home from "./containers/Home/Home";
 import MyPass from "./containers/MyPass/MyPass";
+import UpdatePassword from "./containers/UpdatePassword/UpdatePassword";
 
 class App extends Component {
     componentDidMount() {
@@ -32,12 +33,12 @@ class App extends Component {
                     {this.props.isAdmin ? <Route path="/createUser" component={Auth}/> : null}
                     {this.props.isAdmin ? <Route path="/users" component={Auth}/> : null}
 
-                    <Route path="/" exact component={Home}/>
-                    <Route path="/changeMyPassword" component={Auth}/>
+                    <Route path="/changeMyPassword" component={UpdatePassword}/>
                     <Route path="/logout" component={Logout}/>
                     <Route path="/home" component={Home}/>
                     <Route path="/passes" component={MyPass}/>
-                    <Route path="/activePasses" render={<MyPass active={true}/>}/>
+                    <Route path="/activePasses" render={()=>(<MyPass active={true}/>)}/>
+                    <Route path="/" exact component={Home}/>
                     <Redirect to="/"/>
                 </Switch>
             )

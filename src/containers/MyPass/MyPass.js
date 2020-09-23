@@ -14,9 +14,35 @@ class MyPass extends Component {
             await this.getPasses()
         })()
         if (this.props.active) {
-            setInterval((async () => {
+            // When user is on the active pass page, update every 5s
+            this.updateInterval = setInterval((async () => {
                 await this.getPasses()
             }), 5000)
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.active !== prevProps.active) {
+            (async () => {
+                await this.getPasses()
+            })()
+            if (this.props.active) {
+                // When user is on the active pass page, update every 5s
+                this.updateInterval = setInterval((async () => {
+                    await this.getPasses()
+                }), 5000)
+            } else {
+                if(this.updateInterval){
+                    clearInterval(this.updateInterval)
+                }
+            }
+        }
+    }
+
+    componentWillUnmount() {
+        // if an auto update exists, stop it
+        if(this.updateInterval){
+            clearInterval(this.updateInterval)
         }
     }
 
@@ -46,18 +72,20 @@ class MyPass extends Component {
                         Teacher: {row.destinationTeacher ? row.destinationTeacher.lastName + ', ' + row.destinationTeacher.firstName : null}</p>
                     <p>Origin: {row.origin.room}</p>
                     <p>Origin Teacher: {row.originTeacher.lastName + ', ' + row.originTeacher.firstName}</p>
-                    {row.statuses.map(status => {
-                        return (
-                            <Aux key={status._id}>
-                                <p>
-                                    Time: {status.actionTime} <br/>
-                                    Action: {status.action} <br/>
-                                    Teacher: {status.reviewTeacher.lastName + ', ' + status.reviewTeacher.firstName}
-                                    <br/>
-                                </p>
-                            </Aux>
-                        )
-                    })}
+                    <div className={classes.Actions}>
+                        {row.statuses.map(status => {
+                            return (
+                                <Aux key={status._id}>
+                                    <p>
+                                        Action: {status.action} <br/>
+                                        Time: {status.actionTime} <br/>
+                                        Teacher: {status.reviewTeacher.lastName + ', ' + status.reviewTeacher.firstName}
+                                        <br/>
+                                    </p>
+                                </Aux>
+                            )
+                        })}
+                    </div>
                 </div>
             )
         })

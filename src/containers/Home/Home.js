@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import Form from "../../components/UI/Form/Form";
 import * as util from "../../shared/util";
 import {Redirect} from "react-router-dom";
+import classes from './Home.module.css'
 
 class Home extends Component {
     state = {
@@ -301,7 +302,7 @@ class Home extends Component {
         }
 
         return (
-            <div>
+            <div className={classes.Home}>
                 {redirectMyPasses}
                 {errorMessage}
                 <h1>Request a Pass</h1>
