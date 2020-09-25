@@ -13,6 +13,7 @@ import MyPass from "./containers/MyPass/MyPass";
 import CreateUser from "./containers/CreateUser/CreateUser";
 import UpdatePassword from "./containers/UpdatePassword/UpdatePassword";
 import Users from "./containers/Users/Users";
+import UploadUsers from "./containers/CreateUser/UploadUsers";
 
 class App extends Component {
     componentDidMount() {
@@ -32,6 +33,7 @@ class App extends Component {
                 <Switch>
                     {this.props.isAdmin ? <Route path="/studentQrs" component={AllStudentQr}/> : null}
                     {this.props.isAdmin ? <Route path="/createUser" component={CreateUser}/> : null}
+                    {this.props.isAdmin ? <Route path="/uploadUsers" component={UploadUsers}/> : null}
                     {this.props.isAdmin ? <Route path="/users" component={Users}/> : null}
                     <Route path="/changeMyPassword" component={UpdatePassword}/>
                     <Route path="/logout" component={Logout}/>
