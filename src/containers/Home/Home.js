@@ -108,8 +108,8 @@ class Home extends Component {
                 const teacherOptions = teachers.data.map(teacher => {
                     return {
                         value: teacher._id,
-                        displayValue: `${teacher.lastName}, ${teacher.firstName} (${teacher.room.room})`,
-                        room: teacher.room._id,
+                        displayValue: `${teacher.lastName}, ${teacher.firstName} (${teacher.room? teacher.room.room: 'n/a'})`,
+                        room: teacher.room? teacher.room._id : '',
                     }
                 })
 
@@ -158,9 +158,9 @@ class Home extends Component {
                         value: teacherOptions[0].value,
                         room: teacherOptions[0].room,
                     },
-                    destination : {
+                    destination: {
                         ...this.state.controls.destination,
-                        elementConfig : {
+                        elementConfig: {
                             options: destinationOptions,
                         },
                         value: destinationOptions[0].value,
@@ -181,9 +181,10 @@ class Home extends Component {
                     destinations: destinationOptions,
                 })
             } catch (e) {
-
+                console.log(e)
             }
         })()
+
     }
 
     // handlers call dispatch
@@ -200,27 +201,27 @@ class Home extends Component {
             origin: this.state.controls.origin.value,
             originTeacher: this.state.controls.originTeacher.value,
         }
-        if(destinationData.length > 1){
-            passRequest.destinationTeacher  = destinationData[1]
+        if (destinationData.length > 1) {
+            passRequest.destinationTeacher = destinationData[1]
         }
 
-        (async ()=>{
+        (async () => {
             try {
                 const pass = await axios.post('/requestPass', passRequest)
-                if(pass.data._id){
+                if (pass.data._id) {
                     this.setState({
-                        error : false,
+                        error: false,
                         redirectToMyPass: true,
                     })
                 } else {
                     this.setState({
-                        error : {message: 'Failed to create a pass request'}
+                        error: {message: 'Failed to create a pass request'}
                     })
                 }
-            } catch (e){
+            } catch (e) {
                 console.log(e)
                 this.setState({
-                    error : {message: 'Failed to create a pass request'}
+                    error: {message: 'Failed to create a pass request'}
                 })
             }
         })()
@@ -257,10 +258,12 @@ class Home extends Component {
         // if originTeacher is updated, update the default origin
         if (controlName === 'originTeacher') {
             // maps through allTeachers to get info
+            const fallbackRoom = this.state.allTeachers[0].room;
+            console.log(fallbackRoom)
             const defaultRoom = this.state.allTeachers.filter(teacher => (teacher.value === event.target.value))
             updatedControls.origin = {
                 ...updatedControls.origin,
-                value: defaultRoom[0].room
+                value: defaultRoom[0].room? defaultRoom[0].room : fallbackRoom
             }
         }
 
@@ -277,9 +280,10 @@ class Home extends Component {
                 updatedControls.originTeacher.room = teacherOptions[0].room
 
                 // update origin to teacher's default location
+                const fallbackRoom = this.state.allTeachers[0].room;
                 updatedControls.origin = {
                     ...updatedControls.origin,
-                    value: teacherOptions[0].room,
+                    value: teacherOptions[0].room ? teacherOptions[0].room : fallbackRoom,
                 }
             }
         }
@@ -288,17 +292,15 @@ class Home extends Component {
     }
 
     render() {
-
-
         let errorMessage = null;
-        if (this.props.error) {
+        if (this.state.error) {
             errorMessage = (
-                <p>{this.props.error.message}</p>
+                <p>{this.state.error.message}</p>
             );
         }
         let redirectMyPasses = null;
-        if(this.state.redirectToMyPass){
-            redirectMyPasses = <Redirect to="/passes"/>
+        if (this.state.redirectToMyPass) {
+            redirectMyPasses = <Redirect to="/activePasses"/>
         }
 
         return (

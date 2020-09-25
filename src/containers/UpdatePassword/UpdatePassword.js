@@ -12,7 +12,7 @@ class UpdatePassword extends Component {
                 elementConfig: {
                     type: 'password',
                     placeholder: 'Password',
-                    autocomplete: 'off',
+                    autoComplete: 'off',
                 },
                 value: '',
                 validation: {
@@ -27,7 +27,7 @@ class UpdatePassword extends Component {
                 elementConfig: {
                     type: 'password',
                     placeholder: 'Confirm Password',
-                    autocomplete: 'off',
+                    autoComplete: 'off',
                 },
                 value: '',
                 validation: {

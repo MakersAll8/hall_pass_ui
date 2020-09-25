@@ -1,16 +1,16 @@
 import React, {Component} from 'react'
 import axios from '../../axios-api'
 import classes from './MyPass.module.css'
-import Aux from "../../hoc/Aux/Aux";
-import Modal from "../../components/UI/Modal/Modal";
-import Button from "../../components/UI/Button/Button";
+import Aux from "../../hoc/Aux/Aux"
+import Modal from "../../components/UI/Modal/Modal"
+import Button from "../../components/UI/Button/Button"
+import xlsx from 'xlsx' // https://docs.sheetjs.com/ https://sheetjs.com/demo
 
 class MyPass extends Component {
     state = {
         passes: [],
         error: false,
-        showAction: false,
-        modalActions: []
+        modal: false
     }
 
     componentDidMount() {
@@ -60,11 +60,47 @@ class MyPass extends Component {
     }
 
     hideActionHandler = () => {
-        this.setState({showAction: false})
+        this.setState({modal: false})
     }
 
-    showActionHandler = (statuses) => {
-        this.setState({showAction: true, modalActions: statuses,})
+    showActionHandler = (row) => {
+        this.setState({modal: row,})
+    }
+
+    downloadHandler = () => {
+        console.log(this.state.passes)
+        let flatPasses = this.state.passes.map(pass => {
+            let flat = {
+                _id: pass._id,
+                active: pass.active,
+                createTime: pass.createTime,
+                studentFN: pass.student.firstName,
+                studentLN: pass.student.lastName,
+                grade: pass.student.grade,
+                destination: pass.destination.room,
+                origin: pass.origin.room,
+                originTeacherFN: pass.originTeacher.firstName,
+                originTeacherLN: pass.originTeacher.lastName,
+                actions: JSON.stringify(pass.statuses),
+            }
+            if (pass.destinationTeacher) {
+                flat.destinationTeacherFN = pass.destinationTeacher.firstName
+                flat.destinationTeacherLN = pass.destinationTeacher.lastName
+            }
+            return flat
+        })
+
+        let wb = xlsx.utils.book_new()
+        let ws = xlsx.utils.json_to_sheet(flatPasses,
+            {
+                header: [
+                    '_id', 'active', 'createTime', 'studentFN', 'studentLN', 'grade', 'destination', 'origin',
+                    'originTeacherFN', 'originTeacherLN', 'destinationTeacherFN', 'destinationTeacherLN', 'actions'
+                ]
+            }
+        )
+        xlsx.utils.book_append_sheet(wb, ws, 'AllPasses')
+        xlsx.writeFile(wb, 'passes.xlsx',)
     }
 
     render() {
@@ -82,27 +118,48 @@ class MyPass extends Component {
                     <td>{row.origin.room}</td>
                     <td>{row.originTeacher.lastName + ', ' + row.originTeacher.firstName}</td>
                     <td><Button btnType="Warn" clicked={() => {
-                        this.showActionHandler(row.statuses)
+                        this.showActionHandler(row)
                     }}>Show</Button></td>
                 </tr>
             )
         })
-        const modalActions = this.state.modalActions.map(status => {
-            return (
-                <Aux key={status._id}>
-                    <p>
-                        Action: {status.action} <br/>
-                        Time: {status.actionTime} <br/>
-                        Teacher: {status.reviewTeacher.lastName + ', ' + status.reviewTeacher.firstName}
-                        <br/>
-                    </p>
+        let modalBody = null;
+        if (this.state.modal) {
+            modalBody =
+                <Aux>
+                    <p>ID: {this.state.modal._id}</p>
+                    <p>Status: {this.state.modal.active ? 'ACTIVE' : 'INACTIVE'}</p>
+                    <p>Create Time: {this.state.modal.createTime}</p>
+                    <p>Student: {this.state.modal.student.lastName}, {this.state.modal.student.firstName}</p>
+                    <p>Grade: {this.state.modal.student.grade}</p>
+                    <p>Destination: {this.state.modal.destination.room}</p>
+                    <p>Destination Teacher: {this.state.modal.destinationTeacher ?
+                        `${this.state.modal.destinationTeacher.lastName}, ${this.state.modal.destinationTeacher.firstName}`
+                        : null}</p>
+                    <p>Origin: {this.state.modal.origin.room}</p>
+                    <p>Origin
+                        Teacher: {this.state.modal.originTeacher.lastName + ', ' + this.state.modal.originTeacher.firstName}</p>
+                    <div className={classes.Actions}>
+                        {this.state.modal.statuses.map(status => {
+                            return (
+                                <Aux key={status._id}>
+                                    <p>
+                                        Action: {status.action} <br/>
+                                        Time: {status.actionTime} <br/>
+                                        Teacher: {status.reviewTeacher.lastName + ', ' + status.reviewTeacher.firstName}
+                                        <br/>
+                                    </p>
+                                </Aux>
+                            )
+                        })}
+                    </div>
                 </Aux>
-            )
-        })
+        }
         return (
             <div className={classes.Passes}>
-                <Modal show={this.state.showAction} modalClosed={this.hideActionHandler}>
-                    {modalActions}
+                <Button btnType='Success' clicked={this.downloadHandler}>Download</Button>
+                <Modal show={this.state.modal} modalClosed={this.hideActionHandler}>
+                    {modalBody}
                 </Modal>
                 {this.state.error.message}
                 <h1>{this.props.active ? 'Active Passes' : 'All Passes'}</h1>

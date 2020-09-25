@@ -22,7 +22,7 @@ class App extends Component {
     render() {
         let routes = (
             <Switch>
-                <Route path="/" exact component={Auth}/>
+                <Route path="/" component={Auth}/>
                 {/* redirect to root page if NavLink to does not match any route above */}
                 <Redirect to="/"/>
             </Switch>
@@ -30,7 +30,6 @@ class App extends Component {
         if (this.props.isAuthenticated) {
             routes = (
                 <Switch>
-                    <Route path="/" exact component={Auth}/>
                     {this.props.isAdmin ? <Route path="/studentQrs" component={AllStudentQr}/> : null}
                     {this.props.isAdmin ? <Route path="/createUser" component={CreateUser}/> : null}
                     {this.props.isAdmin ? <Route path="/users" component={Users}/> : null}
@@ -39,6 +38,7 @@ class App extends Component {
                     <Route path="/home" component={Home}/>
                     <Route path="/passes" component={MyPass}/>
                     <Route path="/activePasses" render={()=>(<MyPass active={true}/>)}/>
+                    <Route path="/" exact component={Auth}/>
                     <Redirect to="/"/>
                 </Switch>
             )
