@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import QRCode from 'qrcode.react';
 import axios from '../../axios-api';
 import classes from './AllStudentQr.module.css';
+import * as util from '../../shared/util'
 
 class AllStudentQr extends Component {
     state = {
@@ -27,7 +28,7 @@ class AllStudentQr extends Component {
         const qrImages = students.map(student=>{
             return (
                 <div key={student._id} className={classes.StudentQr}>
-                    <QRCode value={student.qrString}/>
+                    <QRCode value={util.APP_URL+'/studentQrLogin/'+student.qrString}/>
                     <p>{student.firstName} {student.lastName}</p>
                     <p>Homeroom: {student.homeroom.firstName} {student.homeroom.lastName}</p>
                 </div>

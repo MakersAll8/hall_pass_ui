@@ -4,6 +4,11 @@ import * as actionTypes from './actionTypes';
 // sync action creator
 // triggers reducer to modify state with these arguments
 export const authSuccess = (token, user, expires) => {
+    const expiresTime = new Date(expires);
+    localStorage.setItem('token', token);
+    localStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem('expires', expiresTime.getTime().toString());
+
     return {
         type: actionTypes.AUTH_SUCCESS,
         token,
@@ -53,10 +58,7 @@ export const auth = (email, password) => {
         // async api call
         axios.post('/login', authData)
             .then(res => {
-                const expires = new Date(res.data.expires);
-                localStorage.setItem('token', res.data.token);
-                localStorage.setItem('user', JSON.stringify(res.data.user));
-                localStorage.setItem('expires', expires.getTime().toString());
+
 
                 // eventually dispatches a sync action creator
                 dispatch(authSuccess(res.data.token, res.data.user, res.data.expires));

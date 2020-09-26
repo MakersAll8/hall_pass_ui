@@ -14,6 +14,8 @@ import CreateUser from "./containers/CreateUser/CreateUser";
 import UpdatePassword from "./containers/UpdatePassword/UpdatePassword";
 import Users from "./containers/Users/Users";
 import UploadUsers from "./containers/CreateUser/UploadUsers";
+import StudentQr from "./containers/StudentQr/StudentQr";
+import StudentQrLogin from "./containers/StudentQrLogin/StudentQrLogin";
 
 class App extends Component {
     componentDidMount() {
@@ -40,6 +42,8 @@ class App extends Component {
                     <Route path="/home" component={Home}/>
                     <Route path="/passes" component={MyPass}/>
                     <Route path="/activePasses" render={()=>(<MyPass active={true}/>)}/>
+                    <Route path="/studentQr/:objectId" render={(match)=>(<StudentQr match={match}/>)}/>
+                    <Route path="/studentQrLogin/:uuid" render={(match)=>(<StudentQrLogin match={match}/>)}/>
                     <Route path="/" exact component={Auth}/>
                     <Redirect to="/"/>
                 </Switch>

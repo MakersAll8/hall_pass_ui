@@ -32,3 +32,5 @@ export const validateInput = ( value, rules ) => {
 export const randomString = ()=>{
     return Math.random().toString(36).slice(2)
 }
+
+export const APP_URL = 'http://192.168.8.6:3000'
