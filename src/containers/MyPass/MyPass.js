@@ -1,10 +1,10 @@
 import React, {Component} from 'react'
 import axios from '../../axios-api'
 import classes from './MyPass.module.css'
-import Aux from "../../hoc/Aux/Aux"
 import Modal from "../../components/UI/Modal/Modal"
 import Button from "../../components/UI/Button/Button"
-import xlsx from 'xlsx' // https://docs.sheetjs.com/ https://sheetjs.com/demo
+import xlsx from 'xlsx'
+import PassInfo from "../../components/UI/PassInfo/PassInfo"; // https://docs.sheetjs.com/ https://sheetjs.com/demo
 
 class MyPass extends Component {
     state = {
@@ -125,35 +125,7 @@ class MyPass extends Component {
         })
         let modalBody = null;
         if (this.state.modal) {
-            modalBody =
-                <Aux>
-                    <p>ID: {this.state.modal._id}</p>
-                    <p>Status: {this.state.modal.active ? 'ACTIVE' : 'INACTIVE'}</p>
-                    <p>Create Time: {this.state.modal.createTime}</p>
-                    <p>Student: {this.state.modal.student.lastName}, {this.state.modal.student.firstName}</p>
-                    <p>Grade: {this.state.modal.student.grade}</p>
-                    <p>Destination: {this.state.modal.destination.room}</p>
-                    <p>Destination Teacher: {this.state.modal.destinationTeacher ?
-                        `${this.state.modal.destinationTeacher.lastName}, ${this.state.modal.destinationTeacher.firstName}`
-                        : null}</p>
-                    <p>Origin: {this.state.modal.origin.room}</p>
-                    <p>Origin
-                        Teacher: {this.state.modal.originTeacher.lastName + ', ' + this.state.modal.originTeacher.firstName}</p>
-                    <div className={classes.Actions}>
-                        {this.state.modal.statuses.map(status => {
-                            return (
-                                <Aux key={status._id}>
-                                    <p>
-                                        Action: {status.action} <br/>
-                                        Time: {status.actionTime} <br/>
-                                        Teacher: {status.reviewTeacher.lastName + ', ' + status.reviewTeacher.firstName}
-                                        <br/>
-                                    </p>
-                                </Aux>
-                            )
-                        })}
-                    </div>
-                </Aux>
+            modalBody = <PassInfo pass={this.state.modal}/>
         }
         return (
             <div className={classes.Passes}>

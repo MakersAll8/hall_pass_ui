@@ -16,6 +16,7 @@ import Users from "./containers/Users/Users";
 import UploadUsers from "./containers/CreateUser/UploadUsers";
 import StudentQr from "./containers/StudentQr/StudentQr";
 import StudentQrLogin from "./containers/StudentQrLogin/StudentQrLogin";
+import CheckPassStatus from "./containers/CheckPassStatus/CheckPassStatus";
 
 class App extends Component {
     componentDidMount() {
@@ -25,7 +26,9 @@ class App extends Component {
     render() {
         let routes = (
             <Switch>
-                <Route path="/" component={Auth}/>
+                <Route path="/" exact component={Auth}/>
+                <Route path="/studentQrLogin/:uuid" render={(match)=>(<StudentQrLogin match={match}/>)}/>
+                <Route path="/isPassActive/:uuid" render={(match)=>(<CheckPassStatus match={match}/>)}/>
                 {/* redirect to root page if NavLink to does not match any route above */}
                 <Redirect to="/"/>
             </Switch>
@@ -44,6 +47,7 @@ class App extends Component {
                     <Route path="/activePasses" render={()=>(<MyPass active={true}/>)}/>
                     <Route path="/studentQr/:objectId" render={(match)=>(<StudentQr match={match}/>)}/>
                     <Route path="/studentQrLogin/:uuid" render={(match)=>(<StudentQrLogin match={match}/>)}/>
+                    <Route path="/isPassActive/:uuid" render={(match)=>(<CheckPassStatus match={match}/>)}/>
                     <Route path="/" exact component={Auth}/>
                     <Redirect to="/"/>
                 </Switch>

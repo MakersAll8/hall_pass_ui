@@ -10,6 +10,10 @@
     background-color: #4CAF50;
 }
 
+.Inactive {
+    background-color: orangered;
+}
+
 .Actions {
     background-color: #dddddd;
 }
