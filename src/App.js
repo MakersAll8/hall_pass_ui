@@ -26,10 +26,11 @@ class App extends Component {
     render() {
         let routes = (
             <Switch>
-                <Route path="/" exact component={Auth}/>
                 <Route path="/studentQrLogin/:uuid" render={(match)=>(<StudentQrLogin match={match}/>)}/>
-                <Route path="/isPassActive/:uuid" render={(match)=>(<CheckPassStatus match={match}/>)}/>
+                <Route path="/isPassActive/:id/:uuid" render={(match)=>(<CheckPassStatus match={match}/>)}/>
+                <Route path="/modifyPass/:uuid" render={(match)=>(<CheckPassStatus match={match}/>)}/>
                 {/* redirect to root page if NavLink to does not match any route above */}
+                <Route path="/" component={Auth}/>
                 <Redirect to="/"/>
             </Switch>
         )
@@ -47,8 +48,8 @@ class App extends Component {
                     <Route path="/activePasses" render={()=>(<MyPass active={true}/>)}/>
                     <Route path="/studentQr/:objectId" render={(match)=>(<StudentQr match={match}/>)}/>
                     <Route path="/studentQrLogin/:uuid" render={(match)=>(<StudentQrLogin match={match}/>)}/>
-                    <Route path="/isPassActive/:uuid" render={(match)=>(<CheckPassStatus match={match}/>)}/>
-                    <Route path="/" exact component={Auth}/>
+                    <Route path="/isPassActive/:id/:uuid" render={(match)=>(<CheckPassStatus match={match}/>)}/>
+                    <Route path="/" component={Auth}/>
                     <Redirect to="/"/>
                 </Switch>
             )

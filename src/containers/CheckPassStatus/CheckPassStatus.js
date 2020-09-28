@@ -10,7 +10,8 @@ class CheckPassStatus extends Component {
     componentDidMount() {
         (async () => {
             try {
-                const res = await axios.get('/isPassActive/' + this.props.match.match.params.uuid)
+                const res = await axios.get('/isPassActive/' + this.props.match.match.params.id
+                    + '/' + this.props.match.match.params.uuid)
                 this.setState({pass: res.data})
             } catch (e) {
                 console.log(e)

@@ -3,17 +3,18 @@ import QRCode from "qrcode.react";
 import * as util from "../../../shared/util";
 import classes from "../../../containers/MyPass/MyPass.module.css";
 import Aux from "../../../hoc/Aux/Aux";
+import moment from "moment-timezone";
 
 class PassInfo extends Component {
 
     render() {
         return (
             <Aux>
-                <QRCode value={util.APP_URL + '/isPassActive/' + this.props.pass.accessPin}/>
+                <QRCode value={util.APP_URL + '/isPassActive/'+this.props.pass._id + '/' + this.props.pass.accessPin}/>
                 <p>ID: {this.props.pass._id}</p>
                 <p className={this.props.pass.active ? classes.Active: classes.Inactive}>
                     Status: {this.props.pass.active ? 'ACTIVE' : 'INACTIVE'}</p>
-                <p>Create Time: {this.props.pass.createTime}</p>
+                <p>Create Time: {util.toLocalTimeString(this.props.pass.createTime)}</p>
                 <p>Student: {this.props.pass.student.lastName}, {this.props.pass.student.firstName}</p>
                 <p>Grade: {this.props.pass.student.grade}</p>
                 <p>Destination: {this.props.pass.destination.room}</p>
@@ -29,7 +30,7 @@ class PassInfo extends Component {
                             <Aux key={status._id}>
                                 <p>
                                     Action: {status.action} <br/>
-                                    Time: {status.actionTime} <br/>
+                                    Time: {util.toLocalTimeString(status.actionTime)} <br/>
                                     Teacher: {status.reviewTeacher.lastName + ', ' + status.reviewTeacher.firstName}
                                     <br/>
                                 </p>

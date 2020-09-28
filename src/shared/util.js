@@ -1,3 +1,5 @@
+import moment from "moment-timezone";
+
 export const validateInput = ( value, rules ) => {
     let isValid = true;
     if ( !rules ) {
@@ -34,3 +36,9 @@ export const randomString = ()=>{
 }
 
 export const APP_URL = 'http://192.168.8.6:3000'
+
+export const TZ = 'America/Chicago'
+
+export const toLocalTimeString = (utcTimeString)=>{
+    return moment(utcTimeString).tz(TZ).format('h:mm:ss a MM/DD/YYYY')
+}

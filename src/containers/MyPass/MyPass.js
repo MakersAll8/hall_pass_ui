@@ -5,6 +5,8 @@ import Modal from "../../components/UI/Modal/Modal"
 import Button from "../../components/UI/Button/Button"
 import xlsx from 'xlsx'
 import PassInfo from "../../components/UI/PassInfo/PassInfo"; // https://docs.sheetjs.com/ https://sheetjs.com/demo
+import moment from 'moment-timezone'
+import * as util from '../../shared/util'
 
 class MyPass extends Component {
     state = {
@@ -108,7 +110,7 @@ class MyPass extends Component {
             return (
                 <tr className={row.active ? classes.Active : null} key={row._id}>
                     <td>{row.active ? 'ACTIVE' : 'INACTIVE'}</td>
-                    <td>{row.createTime}</td>
+                    <td>{util.toLocalTimeString(row.createTime)}</td>
                     <td>{row.student.lastName}, {row.student.firstName}</td>
                     <td>{row.student.grade}</td>
                     <td>{row.destination.room}</td>
