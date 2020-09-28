@@ -3,7 +3,6 @@ import QRCode from "qrcode.react";
 import * as util from "../../../shared/util";
 import classes from "../../../containers/MyPass/MyPass.module.css";
 import Aux from "../../../hoc/Aux/Aux";
-import moment from "moment-timezone";
 
 class PassInfo extends Component {
 

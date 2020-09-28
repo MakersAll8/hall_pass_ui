@@ -225,8 +225,6 @@ class Home extends Component {
                 })
             }
         })()
-
-
     }
 
     inputChangedHandler = (event, controlName) => {

@@ -5,8 +5,9 @@ import Modal from "../../components/UI/Modal/Modal"
 import Button from "../../components/UI/Button/Button"
 import xlsx from 'xlsx'
 import PassInfo from "../../components/UI/PassInfo/PassInfo"; // https://docs.sheetjs.com/ https://sheetjs.com/demo
-import moment from 'moment-timezone'
 import * as util from '../../shared/util'
+import {withRouter} from 'react-router-dom';
+
 
 class MyPass extends Component {
     state = {
@@ -69,6 +70,10 @@ class MyPass extends Component {
         this.setState({modal: row,})
     }
 
+    modifyPassHandler = (id, accessPin)=>{
+        this.props.history.push('/modifyPass/'+id+'/'+accessPin)
+    }
+
     downloadHandler = () => {
         console.log(this.state.passes)
         let flatPasses = this.state.passes.map(pass => {
@@ -122,6 +127,9 @@ class MyPass extends Component {
                     <td><Button btnType="Warn" clicked={() => {
                         this.showActionHandler(row)
                     }}>Show</Button></td>
+                    <td><Button btnType="Warn" clicked={() => {
+                        this.modifyPassHandler(row._id, row.accessPin)
+                    }}>Modify</Button></td>
                 </tr>
             )
         })
@@ -149,6 +157,7 @@ class MyPass extends Component {
                         <th>Origin</th>
                         <th>Origin Teacher</th>
                         <th>Show Actions</th>
+                        <th>Modify</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -161,4 +170,4 @@ class MyPass extends Component {
 }
 
 
-export default MyPass
+export default withRouter(MyPass)
