@@ -1,0 +1,3 @@
+edit /src/shared/util APP_URL to match deployment server URL
+edit /src/shared/util TZ to match school timezone
+
