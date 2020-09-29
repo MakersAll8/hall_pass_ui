@@ -1,18 +1,15 @@
 .Button {
     background-color: transparent;
     border: none;
-    color: white;
-    outline: none;
-    cursor: pointer;
-    font: inherit;
-    padding: 10px;
-    margin: 10px;
+    color: black;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
     font-weight: bold;
-}
+    cursor: pointer;
 
-.Button:first-of-type {
-    margin-left: 0;
-    padding-left: 0;
 }
 
 .Button:disabled {
@@ -21,13 +18,19 @@
 }
 
 .Success {
-    color: #5C9210;
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    text-decoration: none;
 }
 
 .Danger {
-    color: #944317;
+    background-color: #f44336;
+    color: white;
+
 }
 
 .Warn {
-    color: burlywood;
+    background-color: burlywood;
+    color: white;
 }

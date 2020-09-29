@@ -7,6 +7,7 @@ import xlsx from 'xlsx'
 import PassInfo from "../../components/UI/PassInfo/PassInfo"; // https://docs.sheetjs.com/ https://sheetjs.com/demo
 import * as util from '../../shared/util'
 import {withRouter} from 'react-router-dom';
+import {connect} from "react-redux";
 
 
 class MyPass extends Component {
@@ -127,9 +128,9 @@ class MyPass extends Component {
                     <td><Button btnType="Warn" clicked={() => {
                         this.showActionHandler(row)
                     }}>Show</Button></td>
-                    <td><Button btnType="Warn" clicked={() => {
+                    {this.props.user.userType !=='STUDENT' && <td><Button btnType="Warn" clicked={() => {
                         this.modifyPassHandler(row._id, row.accessPin)
-                    }}>Modify</Button></td>
+                    }}>Modify</Button></td>}
                 </tr>
             )
         })
@@ -145,9 +146,9 @@ class MyPass extends Component {
                 </Modal>
                 {this.state.error.message}
                 <h1>{this.props.active ? 'Active Passes' : 'All Passes'}</h1>
-                <table>
+                <table className={classes.Table}>
                     <thead>
-                    <tr>
+                    <tr className={this.props.active ? classes.Active : ''}>
                         <th>Status</th>
                         <th>Create Time</th>
                         <th>Student</th>
@@ -157,7 +158,7 @@ class MyPass extends Component {
                         <th>Origin</th>
                         <th>Origin Teacher</th>
                         <th>Show Actions</th>
-                        <th>Modify</th>
+                        {this.props.user.userType !=='STUDENT' && <th>Modify</th>}
                     </tr>
                     </thead>
                     <tbody>
@@ -169,5 +170,10 @@ class MyPass extends Component {
     }
 }
 
+const mapStateToProps = state => {
+    return {
+        user: state.auth.user,
+    };
+};
 
-export default withRouter(MyPass)
+export default connect(mapStateToProps)(withRouter(MyPass))
