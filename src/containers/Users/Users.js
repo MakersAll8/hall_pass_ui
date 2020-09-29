@@ -8,6 +8,7 @@ import Input from "../../components/UI/Input/Input";
 import * as util from "../../shared/util";
 import Form from "../../components/UI/Form/Form"; // https://docs.sheetjs.com/ https://sheetjs.com/demo
 import classes from './Users.module.css'
+import * as uuid from 'uuid'
 
 class Users extends Component {
     state = {
@@ -356,6 +357,22 @@ class Users extends Component {
         }
     }
 
+    resetQrCodeHandler = async (e, userObjectId) => {
+        e.preventDefault()
+        try {
+            const qrString = uuid.v4()
+            console.log(qrString)
+            const resetRes = await axios.patch('/users/'+userObjectId, {qrString})
+            if(resetRes.data._id){
+                this.setState({message: {message: 'Reset successful'}})
+            } else {
+                this.setState({message: {message: 'Failed to reset'}})
+            }
+        } catch (e){
+
+        }
+    }
+
     inputChangedHandler = (event, controlName) => {
         const updatedControls = {
             ...this.state.controls,
@@ -372,7 +389,7 @@ class Users extends Component {
     }
 
     quickLoginHandler = (objectId) => {
-        this.props.history.push('/studentQr/'+objectId)
+        this.props.history.push('/studentQr/' + objectId)
     }
 
     render() {
@@ -389,9 +406,9 @@ class Users extends Component {
                     <td>{row.username}</td>
                     <td>{row.userType}</td>
                     <td>{row.userType === 'STUDENT' && <Button btnType='Success'
-                                clicked={() => {
-                                    this.quickLoginHandler(row._id)
-                                }}
+                                                               clicked={() => {
+                                                                   this.quickLoginHandler(row._id)
+                                                               }}
                     >QR Code</Button>}</td>
                     <td>{row.room ? row.room.room : ''}</td>
                 </tr>
@@ -408,7 +425,12 @@ class Users extends Component {
                           handleInputChange={this.inputChangedHandler}
                           btnType="Success"
                           btnName="Update User"/>
-                    {this.state.selectedUser.userType === 'STUDENT' && <Button btnType="Success">Reset QR Code</Button>}
+                    {this.state.selectedUser.userType === 'STUDENT' &&
+                    <Button clicked={(e) => {
+                        this.resetQrCodeHandler(e, this.state.selectedUser._id)
+                    }}
+                            btnType="Success">Reset QR Code</Button>
+                    }
                 </Aux>
         }
         return (

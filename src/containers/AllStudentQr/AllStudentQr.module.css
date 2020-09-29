@@ -1,5 +1,7 @@
 .AllStudentQr {
     text-align: center;
+    margin-left: 10%;
+    margin-right: 10%;
 }
 
 .StudentQr {
@@ -15,11 +17,33 @@
         display: none;
     }
 
-    .StudentQr {
-        float: none;
-        overflow: visible;
-        display: inline-block;
+    body, div {
         position: static;
     }
 
+    .AllStudentQr {
+        text-align: center;
+        margin: 0;
+        overflow: visible;
+
+    }
+
+    .StudentQr {
+        display: inline-block;
+        margin: 0;
+        /*column-width: 17em;*/
+        /*column-gap: 3em;*/
+        overflow: visible;
+        position: static;
+        break-inside: avoid;
+        break-before: auto;
+    }
+
+}
+
+@page {
+    size: letter;
+    margin: 0;
+    orphans: 4;
+    widows: 2;
 }
