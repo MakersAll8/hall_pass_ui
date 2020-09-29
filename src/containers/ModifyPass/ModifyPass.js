@@ -3,6 +3,7 @@ import axios from "../../axios-api";
 import * as util from "../../shared/util";
 import Form from "../../components/UI/Form/Form";
 import Modal from "../../components/UI/Modal/Modal";
+import Aux from "../../hoc/Aux/Aux";
 
 
 class ModifyPass extends Component {
@@ -164,7 +165,7 @@ class ModifyPass extends Component {
                             options: destinationOptions,
                         },
                         value: pass.destination._id + ';' +
-                            (pass.destinationTeacher ?  pass.destinationTeacher._id : ''),
+                            (pass.destinationTeacher ? pass.destinationTeacher._id : ''),
                     },
                     origin: {
                         ...this.state.controls.origin,
@@ -299,6 +300,14 @@ class ModifyPass extends Component {
                     {modalBody}
                 </Modal>
                 <h1>Modify Pass</h1>
+                {this.state.pass && (
+                    <Aux>
+                        <p>{`${this.state.pass.student.firstName} ${this.state.pass.student.lastName}`}</p>
+                        <p>Grade: {this.state.pass.student.grade}</p>
+                        <p>Create Time: {util.toLocalTimeString(this.state.pass.createTime)}</p>
+                    </Aux>
+                    )
+                }
                 <Form handleSubmit={this.submitHandler}
                       controls={this.state.controls}
                       handleInputChange={this.inputChangedHandler}
