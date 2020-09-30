@@ -35,9 +35,9 @@ export const randomString = ()=>{
     return Math.random().toString(36).slice(2)
 }
 
-export const APP_URL = process.env.APP_URL
+export const APP_URL = process.env.APP_URL || 'https://sfhs.bonvivant.tech'
 
-export const TZ = process.env.TZ
+export const TZ = process.env.TZ || 'America/Chicago'
 
 export const toLocalTimeString = (utcTimeString)=>{
     return moment(utcTimeString).tz(TZ).format('h:mm:ss a MM/DD/YYYY')

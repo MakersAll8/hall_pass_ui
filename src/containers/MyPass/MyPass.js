@@ -140,7 +140,7 @@ class MyPass extends Component {
         }
         return (
             <div className={classes.Passes}>
-                <Button btnType='Success' clicked={this.downloadHandler}>Download</Button>
+                {this.props.user.userType !=='STUDENT' && <Button btnType='Success' clicked={this.downloadHandler}>Download</Button>}
                 <Modal show={this.state.modal} modalClosed={this.hideActionHandler}>
                     {modalBody}
                 </Modal>

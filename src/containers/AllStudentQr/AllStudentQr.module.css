@@ -11,39 +11,39 @@
     border: 1px solid #ccc
 }
 
-@media print {
+/*@media print {*/
 
-    header, nav, footer, header > div {
-        display: none;
-    }
+/*    header, nav, footer, header > div {*/
+/*        display: none;*/
+/*    }*/
 
-    body, div {
-        position: static;
-    }
+/*    body, div {*/
+/*        position: static;*/
+/*    }*/
 
-    .AllStudentQr {
-        text-align: center;
-        margin: 0;
-        overflow: visible;
+/*    .AllStudentQr {*/
+/*        text-align: center;*/
+/*        margin: 0;*/
+/*        overflow: visible;*/
 
-    }
+/*    }*/
 
-    .StudentQr {
-        display: inline-block;
-        margin: 0;
-        /*column-width: 17em;*/
-        /*column-gap: 3em;*/
-        overflow: visible;
-        position: static;
-        break-inside: avoid;
-        break-before: auto;
-    }
+/*    .StudentQr {*/
+/*        display: inline-block;*/
+/*        margin: 0;*/
+/*        !*column-width: 17em;*!*/
+/*        !*column-gap: 3em;*!*/
+/*        overflow: visible;*/
+/*        position: static;*/
+/*        break-inside: avoid;*/
+/*        break-before: auto;*/
+/*    }*/
 
-}
+/*}*/
 
-@page {
-    size: letter;
-    margin: 0;
-    orphans: 4;
-    widows: 2;
-}
+/*@page {*/
+/*    size: letter;*/
+/*    margin: 0;*/
+/*    orphans: 4;*/
+/*    widows: 2;*/
+/*}*/
