@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
-import axios from '../../axios-api'
-import Modal from "../../components/UI/Modal/Modal";
-import classes from './UploadUsers.module.css'
+// import axios from '../../axios-api'
+// import Modal from "../../components/UI/Modal/Modal";
+// import classes from './UploadUsers.module.css'
 import DragAndDrop from "../../components/UI/DragAndDrop/DragAndDrop";
 import xlsx from 'xlsx'
 
