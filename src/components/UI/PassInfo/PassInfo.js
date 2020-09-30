@@ -3,13 +3,24 @@ import QRCode from "qrcode.react";
 import * as util from "../../../shared/util";
 import classes from "../../../containers/MyPass/MyPass.module.css";
 import Aux from "../../../hoc/Aux/Aux";
+import schoolLogo from "../../../assets/images/sfsd_logo_square.png";
 
 class PassInfo extends Component {
 
     render() {
         return (
             <Aux>
-                <QRCode value={util.APP_URL + '/isPassActive/'+this.props.pass._id + '/' + this.props.pass.accessPin}/>
+                <QRCode value={util.APP_URL + '/isPassActive/'+this.props.pass._id + '/' + this.props.pass.accessPin}
+                        renderAs={'png'}
+                        imageSettings={{
+                            src: schoolLogo,
+                            x: null,
+                            y: null,
+                            height: 24,
+                            width: 24,
+                            excavate: true,
+                        }}
+                />
                 <p>ID: {this.props.pass._id}</p>
                 <p className={this.props.pass.active ? classes.Active: classes.Inactive}>
                     Status: {this.props.pass.active ? 'ACTIVE' : 'INACTIVE'}</p>
